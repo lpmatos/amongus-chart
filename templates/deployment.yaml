@@ -1,0 +1,31 @@
+apiVersion: {{ template "deployment.apiVersion" . }}
+kind: Deployment
+metadata:
+  name: {{ include "amongusdiscord.name" . }}
+  labels: {{- include "amongusdiscord.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {{- include "amongusdiscord.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels: {{- include "amongusdiscord.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ include "amongusdiscord.name" . }}
+          image: {{ include "amongusdiscord.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: DISCORD_BOT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: discord-bot-token
+                  key: discord-bot-token
+            {{- if .Values.extraEnvVars }}
+            {{- toYaml .Values.extraEnvVars | nindent 12 }}
+            {{- end }}
+          ports:
+            - containerPort: {{ .Values.service.port }}
+          {{- if .Values.resources }}
+          resources: {{- toYaml .Values.resources | nindent 12 }}
+          {{- end }}

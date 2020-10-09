@@ -1,0 +1,19 @@
+{{- if .Values.ingress.enabled -}}
+apiVersion: {{ template "ingress.apiVersion" . }}
+kind: Ingress
+metadata:
+  name: {{ include "amongusdiscord.name" . }}
+  annotations:
+    {{- with .Values.ingress.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  rules:
+  - host: {{ .Values.ingress.host.name }}
+    http:
+      paths:
+      - path: {{ .Values.ingress.host.path }}
+        backend:
+          serviceName: {{ include "amongusdiscord.name" . }}
+          servicePort: {{ .Values.service.port }}
+{{- end }}
