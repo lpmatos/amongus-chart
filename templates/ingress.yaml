@@ -17,3 +17,4 @@ spec:
           serviceName: {{ include "amongusdiscord.name" . }}
           servicePort: {{ .Values.service.port }}
 {{- end }}
+---
