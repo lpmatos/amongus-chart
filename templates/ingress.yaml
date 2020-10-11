@@ -1,20 +1,25 @@
 {{- if .Values.ingress.enabled -}}
+{{- $ingressPath := .Values.ingress.path -}}
+{{- $servicePort := .Values.service.port  -}}
+{{- $fullName    := include "amongusdiscord.name" . -}}
 apiVersion: {{ template "ingress.apiVersion" . }}
 kind: Ingress
 metadata:
-  name: {{ include "amongusdiscord.name" . }}
+  name: {{ $fullName }}
   annotations:
     {{- with .Values.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
 spec:
   rules:
-  - host: {{ .Values.ingress.host.name }}
+  {{- range .Values.ingress.hosts }}
+  - host: {{ . | quote }}
     http:
       paths:
-      - path: {{ .Values.ingress.host.path }}
+      - path: {{ $ingressPath }}
         backend:
-          serviceName: {{ include "amongusdiscord.name" . }}
-          servicePort: {{ .Values.service.port }}
+          serviceName: {{ $fullName }}
+          servicePort: {{ $servicePort }}
+  {{- end }}
 {{- end }}
 ---

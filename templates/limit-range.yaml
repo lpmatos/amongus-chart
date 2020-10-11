@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: amongus-limit-range
+  namespace: {{ .Release.Namespace }}
+spec:
+  limits:
+  - default:
+      memory: 128Mi
+      cpu: 100m
+    defaultRequest:
+      memory: 252Mi
+      cpu: 200m
+    max:
+      cpu: 200m
+      memory: 252Mi
+    min:
+      cpu: 50m
+      memory: 64Mi
+    type: Container

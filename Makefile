@@ -1,5 +1,5 @@
-NAME := amongusdiscord
-NAMESPACE := amongusdiscord
+NAME := amongus
+NAMESPACE := amongus
 
 build: clean
 	helm dependency build .

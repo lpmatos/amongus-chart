@@ -1,37 +1,23 @@
-# Default values for charts.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
 ## Amongus Discord image
 ## ref: https://hub.docker.com/r/denverquane/amongusdiscord/tags
 ##
+
+replicaCount: 1
+
 image:
   repository: denverquane/amongusdiscord
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
+  pullSecrets: []
 
 ## String to partially override grafana.fullname template (will maintain the release name)
 ##
-nameOverride: amongus
+# nameOverride:
 
 ## String to fully override grafana.fullname template
 ##
 # fullnameOverride:
-
-## An array to add extra env vars
-## For example:
-## extraEnvVars:
-##  - name: GF_DEFAULT_INSTANCE_NAME
-##    value: my-instance
-##
-extraEnvVars:
-  - name: PORT
-    value: "8123"
-  - name: EXT_PORT
-    value: "8123"
-  - name: SERVER_URL
-    value: "https://amongus.labs.io"
 
 ## Service parameters
 ##
@@ -47,20 +33,16 @@ service:
 ingress:
   ## Set to true to enable ingress record generation
   enabled: true
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/rewrite-target: /
-  ## The list of hostnames to be covered with this ingress record.
-  ## Most likely this will be just one host, but in the event more hosts are needed, this is an array
-  host:
-    name: amongus.labs.io
-    path: /
+  annotations: {}
+    ## kubernetes.io/ingress.class: nginx
+    ## nginx.ingress.kubernetes.io/rewrite-target: /
+  path: /
+  hosts:
+    - amongus.labs.io
 
+## Optional resource requests and limits for the Amongus container
+## ref: http://kubernetes.io/docs/user-guide/compute-resources/
 resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   # limits:
   #   cpu: 100m
   #   memory: 128Mi
@@ -68,5 +50,42 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
+## Node labels for pod assignment
+## ref: https://kubernetes.io/docs/user-guide/node-selection/
+##
+nodeSelector: {}
+
+## Tolerations for pod assignment
+## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+##
+tolerations: []
+
+## Affinity for pod assignment
+## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+##
+affinity: {}
+
+## An array to add extra env vars
+## Access -https://github.com/denverquane/amongusdiscord#advanced-only-configure-these-variables-if-you-know-what-youre-doing
+## For example:
+## extraEnvVars:
+##  - name: GF_DEFAULT_INSTANCE_NAME
+##    value: my-instance
+##
+extraEnvVars:
+  - name: EMOJI_GUILD_ID
+    value: ""
+  - name: PORT
+    value: "8123"
+  - name: EXT_PORT
+    value: "8123"
+  - name: SERVER_URL
+    value: "https://amongus.labs.io"
+  - name: CONFIG_PATH
+    value: "./"
+  - name: NUM_SHARDS
+    value: "1"
+
+
 discord:
-  token: 
+  token: <your-token>

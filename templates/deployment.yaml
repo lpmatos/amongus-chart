@@ -4,18 +4,30 @@ metadata:
   name: {{ include "amongusdiscord.name" . }}
   labels: {{- include "amongusdiscord.labels" . | nindent 4 }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels: {{- include "amongusdiscord.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels: {{- include "amongusdiscord.selectorLabels" . | nindent 8 }}
     spec:
+      {{- with .Values.nodeSelector }}
+      nodeSelector: {{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity: {{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations: {{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets: {{ toYaml . | nindent 8 }}
+      {{- end }}
       containers:
         - name: {{ include "amongusdiscord.name" . }}
           image: {{ include "amongusdiscord.image" . }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          env:
+          imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+          env: 
             - name: DISCORD_BOT_TOKEN
               valueFrom:
                 secretKeyRef:

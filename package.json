@@ -1,6 +1,7 @@
 {
   "_comment": "this project is not a node.js one, package.json is just used to define some metadata",
   "scripts": {
+    "lint": "bash ./githooks/pre-push/kubeval",
     "cm": "git cz"
   },
   "husky": {
