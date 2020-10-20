@@ -1,12 +1,10 @@
 # Always ignore files
 .DS_Store
-/.idea/*
 .vscode
-*.tar.gz
-*.tgz
 *.sublime-*
 *.lock
 *.txt
+.idea/*
 
 # NPM files
 node_modules

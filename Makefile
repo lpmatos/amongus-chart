@@ -1,22 +1,22 @@
-NAME := amongus
-NAMESPACE := amongus
+NAME := amongus-discord
+NAMESPACE := amongus-discord
+CHART := $(CURDIR)/chart
 
 build: clean
-	helm dependency build .
-	helm lint .
+	helm dependency build $(CHART)
+	helm lint $(CHART)
 
 install: clean build
-	helm upgrade --install $(NAME) . -n $(NAMESPACE)
+	helm upgrade --install $(NAME) $(CHART) -n $(NAMESPACE)
 
 upgrade: clean build
-	helm upgrade --install $(NAME) . -n $(NAMESPACE)
+	helm upgrade --install $(NAME) $(CHART) -n $(NAMESPACE)
 
 delete:
 	helm delete $(NAME) -n $(NAMESPACE)
 
 clean: 
-	rm -rf charts/charts
-	rm -rf charts/${NAME}*.tgz
-	rm -rf charts/requirements.lock
+	rm -rf $(CHART)/charts
+	rm -rf $(CHART)/requirements.lock
 
 release: clean build

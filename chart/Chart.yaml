@@ -1,5 +1,5 @@
 apiVersion: v2
-name: charts
+name: amongus-discord
 description: A Amongus Discord Helm chart for Kubernetes
 version: 0.1.0
 appVersion: 1.16.0

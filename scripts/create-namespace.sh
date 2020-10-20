@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-NAMESPACE="amongus"
+NAMESPACE=${1:-amongus-discord}
 
 cat <<EOF | kubectl apply -f -
 apiVersion: v1
