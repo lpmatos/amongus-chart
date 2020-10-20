@@ -6,7 +6,7 @@ echo "Home directory: $HOME"
 echo "Script helm package amongus discord chart"
 
 echo "Validate helm template"
-helm template amongus-chart $HOME/chart
+helm template amongus-chart $HOME/charts/amongus-discord
 
 echo "Helm Package amongus discord chart"
-helm package $HOME/chart -u -d $HOME/repo
+helm package $HOME/charts/amongus-discord -u -d $HOME/repo
