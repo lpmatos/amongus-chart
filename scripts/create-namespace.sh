@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
 NAMESPACE="amongus"
 
 cat <<EOF | kubectl apply -f -
